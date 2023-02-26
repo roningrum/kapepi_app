@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kapepi_app/views/kartu_scan_detail.dart';
+import 'package:kapepi_app/views/splashscreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent, // transparent status bar
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark // transparent status bar
   ));
   runApp(const MyApp());
 }
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(vertical: 15),
             ),
       ),
-      home: const KartuScanDetail(),
+      home: const SplashScreen(),
     );
   }
 }
