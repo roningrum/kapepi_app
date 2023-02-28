@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kapepi_app/theme.dart';
 import 'package:kapepi_app/widget/kartu_home_initial_page.dart';
 

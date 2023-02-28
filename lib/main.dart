@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kapepi_app/views/kartu_scan_detail.dart';
-import 'package:kapepi_app/views/splashscreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
