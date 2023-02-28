@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(vertical: 15),
             ),
       ),
-      home: const SplashScreen(),
+      home: const KartuScanDetail(),
     );
   }
 }

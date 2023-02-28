@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kapepi_app/theme.dart';
+import 'package:kapepi_app/widget/kartu_home_initial_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -47,28 +48,6 @@ class _HomeState extends State<Home> {
             ),
            ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child:  Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // KartuWidget()
-              SvgPicture.asset('assets/images/petugas.svg', height: 200),
-              const SizedBox(height: 16.0),
-              Text(
-                'Selamat Datang',
-                style: fontTitle.copyWith(
-                    fontSize: 18.0,
-                    color: greenPrimary,
-                    fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 16.0),
-              Text(
-                'Lakukan pencarian nomor registrasi pada kolom pencarian nomor registrasi ',
-                style: fontInfo.copyWith(fontSize: 14.0, color: blackFont),
-              ),
-            ],
-          ),
-        ));
+        body: const KartuHomeInitialPage());
   }
 }

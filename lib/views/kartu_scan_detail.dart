@@ -30,7 +30,7 @@ class _KartuScanDetailState extends State<KartuScanDetail> {
             )
       ),
        child: const Padding(
-         padding: const EdgeInsets.all(8.0),
+         padding: EdgeInsets.all(8.0),
          child: KartuDetailWidget(),
        ),
       )
