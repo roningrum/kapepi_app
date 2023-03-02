@@ -8,27 +8,30 @@ class KartuHomeInitialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // KartuWidget()
-          SvgPicture.asset('assets/images/petugas.svg', height: 200),
-          const SizedBox(height: 16.0),
-          Text(
-            'Selamat Datang',
-            style: fontTitle.copyWith(
-                fontSize: 18.0,
-                color: greenPrimary,
-                fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 16.0),
-          Text(
-            'Lakukan pencarian nomor registrasi pada kolom pencarian nomor registrasi ',
-            style: fontInfo.copyWith(fontSize: 14.0, color: blackFont),
-          ),
-        ],
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // KartuWidget()
+            SvgPicture.asset('assets/images/petugas.svg', height: 200),
+            const SizedBox(height: 16.0),
+            Text(
+              'Selamat Datang',
+              style: fontTitle.copyWith(
+                  fontSize: 18.0,
+                  color: greenPrimary,
+                  fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 16.0),
+            Text(
+              'Lakukan pencarian nomor registrasi pada kolom pencarian nomor registrasi ',
+              style: fontInfo.copyWith(fontSize: 14.0, color: blackFont),
+            ),
+          ],
+        ),
       ),
     );
   }
