@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kapepi_app/bloc/kartu_bloc.dart';
-import 'package:kapepi_app/repository/network_repo.dart';
-import 'package:kapepi_app/views/home.dart';
+import 'package:kapepi_app/views/splashscreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,21 +16,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<KartuSearchBloc>(
-      create: (context)=>KartuSearchBloc(NetworkRepo()),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-            elevation: 0,
-
-          ),
-          inputDecorationTheme: const InputDecorationTheme(
-                contentPadding: EdgeInsets.symmetric(vertical: 15),
-              ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          elevation: 0,
+            
         ),
-        home: const Home(),
+        inputDecorationTheme: const InputDecorationTheme(
+              contentPadding: EdgeInsets.symmetric(vertical: 15),
+            ),
       ),
+      home: const SplashScreen(),
     );
   }
 }
