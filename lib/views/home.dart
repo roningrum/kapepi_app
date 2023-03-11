@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kapepi_app/model/kartu.dart';
+import 'package:kapepi_app/repository/local/databaseHelper.dart';
+import 'package:kapepi_app/repository/local/pasien.dart';
 import 'package:kapepi_app/repository/network_repo.dart';
 import 'package:kapepi_app/theme.dart';
+import 'package:kapepi_app/views/history_search_page.dart';
 import 'package:kapepi_app/widget/kartu_home_initial_page.dart';
 import 'package:kapepi_app/widget/kartu_widget.dart';
 
@@ -18,18 +21,13 @@ class _HomeState extends State<Home> {
   TextEditingController noRegController = TextEditingController();
   late String noReg;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //  if(noReg != null ){
-  //    getData();
-  //  }
-  //  else{
-  //    print('Data Kosong');
-  //  }
-  //   // print(noReg);
-  //
-  // }
+  @override
+  void initState() {
+    super.initState();
+   DatabaseHelper.initializeDB();
+    // print(noReg);
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +52,16 @@ class _HomeState extends State<Home> {
                   prefixIcon: Padding(
                     padding: const EdgeInsets.only(right: 4.0),
                     child: Icon(Icons.search, color: greenSecondary),
+                  ),
+                  suffixIcon: noRegController.text.isEmpty? null :IconButton(
+                    onPressed: (){
+                      setState(() {
+                        noRegController.clear();
+                        const KartuHomeInitialPage();
+                      });
+
+                    },
+                    icon: const Icon(Icons.clear),
                   ),
                   filled: true,
                   fillColor: whiteApp,
@@ -86,7 +94,15 @@ class _HomeState extends State<Home> {
        body: Padding(
          padding: const EdgeInsets.all(0.0),
          child: noRegController.text.isNotEmpty ? KartuWidget(data) : const KartuHomeInitialPage(),
-       )
+       ),
+      floatingActionButton:  FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const HistorySearchPage()));
+        },
+        backgroundColor: greenSecondary,
+        child: const Icon(Icons.history),
+      ),
     );
   }
 
@@ -95,7 +111,25 @@ class _HomeState extends State<Home> {
     data = response!;
     setState(() {
       if(data != null){
+        var pasien = Pasien();
+        pasien.nik = data.nik;
+        pasien.noRM = data.noReg;
+        pasien.nama = data.nama;
+        pasien.kk = data.kk;
+        pasien.ibu = data.ibu!.isEmpty?'-': data.ibu;
+        pasien.jenisKelamin = data.jkl;
+        pasien.tglLahir = data.tgLahir;
+        pasien.tLahir = data.tLahir;
+        pasien.alamat = data.alamat;
+        pasien.kelurahan = data.kelurahan;
+        pasien.puskesmas = data.puskesmas;
+        pasien.caraBayar = data.caraBayar;
+        pasien.status = data.status;
+
+        DatabaseHelper.saveDataPasien(pasien);
+
         if (kDebugMode) {
+          print(pasien);
           print(response);
         }
       }
@@ -107,6 +141,5 @@ class _HomeState extends State<Home> {
     });
 
   }
-
 
 }
