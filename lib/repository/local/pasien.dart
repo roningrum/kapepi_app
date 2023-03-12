@@ -1,5 +1,5 @@
 class Pasien {
-  String? id;
+  int? id;
   String? noRM;
   String? nik;
   String? nama;
@@ -44,7 +44,7 @@ class Pasien {
           puskesmas = res["puskesmas"],
           caraBayar = res["caraBayar"],
           status = res["status"];
-  Map<String, dynamic> toMap(){
+  Map<String, Object?> toMap(){
     return{
       'id' : id,
       'noRM' : noRM,

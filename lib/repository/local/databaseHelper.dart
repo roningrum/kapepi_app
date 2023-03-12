@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   // initial DB
-  static Future<Database> initializeDB() async {
+  Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
     return openDatabase(join(path, 'puskesmasDB'),
         onCreate: (database, version) async {
@@ -32,26 +32,23 @@ class DatabaseHelper {
   }
 
   // simpan data pasien setelah dicari
-static Future<int> saveDataPasien(Pasien data) async{
+Future<int> saveDataPasien(Pasien data) async{
     final Database db = await initializeDB();
-    final id = await db.insert('pasien', data.toMap());
+    final id = await db.insert('pasien', data.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
     return id;
 }
-
 // menampilkan riwayat
-static Future<List<Pasien>> getPasienRiwayat() async{
+Future<List<Pasien>> getPasienRiwayat() async{
     final db = await initializeDB();
-    List<Map> maps = await db.query('pasien', orderBy: "id");
-    List<Pasien> pasiens = [];
-    if(maps.length>0){
-      for(int i=0;i<maps.length;i++){
-        pasiens.add(Pasien.fromMap(maps[i] as Map<String, dynamic>));
-      }
-    }
-    return pasiens;
+    List<Map<String, Object?>> maps = await db.query('pasien', orderBy: "id");
+    return maps.map((e) => Pasien.fromMap(e)).toList();
 }
 
 //delete pencarian
+Future<void> hapusRiwayat(int id) async{
+    final db = await initializeDB();
+    await db.delete('pasien',where: "id = ?", whereArgs: [id], );
+}
 
 
 }

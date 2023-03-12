@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kapepi_app/model/kartu.dart';
 import 'package:kapepi_app/repository/local/databaseHelper.dart';
 import 'package:kapepi_app/repository/local/pasien.dart';
@@ -17,16 +18,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   NetworkRepo networkRepo = NetworkRepo();
-  late Data data;
+  Data? data;
   TextEditingController noRegController = TextEditingController();
   late String noReg;
+  late DatabaseHelper databaseHelper;
 
   @override
   void initState() {
     super.initState();
-   DatabaseHelper.initializeDB();
-    // print(noReg);
-
+   databaseHelper = DatabaseHelper();
+   databaseHelper.initializeDB();
   }
 
   @override
@@ -93,7 +94,7 @@ class _HomeState extends State<Home> {
         // body: const KartuHomeInitialPage());
        body: Padding(
          padding: const EdgeInsets.all(0.0),
-         child: noRegController.text.isNotEmpty ? KartuWidget(data) : const KartuHomeInitialPage(),
+         child: noRegController.text.isNotEmpty && data!=null ? KartuWidget(data!) : const KartuHomeInitialPage(),
        ),
       floatingActionButton:  FloatingActionButton(
         onPressed: () {
@@ -108,38 +109,39 @@ class _HomeState extends State<Home> {
 
   void getData(String noReg) async{
     var response = await networkRepo.fetchResult(noReg);
-    data = response!;
     setState(() {
-      if(data != null){
+      if(response != null){
+        data = response;
         var pasien = Pasien();
-        pasien.nik = data.nik;
-        pasien.noRM = data.noReg;
-        pasien.nama = data.nama;
-        pasien.kk = data.kk;
-        pasien.ibu = data.ibu!.isEmpty?'-': data.ibu;
-        pasien.jenisKelamin = data.jkl;
-        pasien.tglLahir = data.tgLahir;
-        pasien.tLahir = data.tLahir;
-        pasien.alamat = data.alamat;
-        pasien.kelurahan = data.kelurahan;
-        pasien.puskesmas = data.puskesmas;
-        pasien.caraBayar = data.caraBayar;
-        pasien.status = data.status;
+        pasien.nik = data!.nik;
+        pasien.noRM = data!.noReg;
+        pasien.nama = data!.nama;
+        pasien.kk = data!.kk;
+        pasien.ibu = data!.ibu!.isEmpty?'-': data!.ibu;
+        pasien.jenisKelamin = data!.jkl;
+        pasien.tglLahir = data!.tgLahir;
+        pasien.tLahir = data!.tLahir;
+        pasien.alamat = data!.alamat;
+        pasien.kelurahan = data!.kelurahan;
+        pasien.puskesmas = data!.puskesmas;
+        pasien.caraBayar = data!.caraBayar;
+        pasien.status = data!.status;
 
-        DatabaseHelper.saveDataPasien(pasien);
-
+        databaseHelper.saveDataPasien(pasien);
         if (kDebugMode) {
           print(pasien);
           print(response);
         }
       }
       else{
-        if (kDebugMode) {
-          print('Tidak ada data');
-        }
+        Fluttertoast.showToast(msg: 'Data Tidak Ditemukan Silakan Cari Lagi', toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            textColor: whiteApp,
+            fontSize: 16.0
+        );
       }
     });
 
   }
-
 }

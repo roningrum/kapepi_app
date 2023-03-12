@@ -8,7 +8,7 @@ import '../model/kartu.dart';
 class KartuWidget extends StatelessWidget {
   final Data data;
 
-  const KartuWidget(this.data, {super.key});
+  const KartuWidget(this.data,{Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
